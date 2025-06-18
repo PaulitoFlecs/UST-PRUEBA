@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda League of Legends</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #0c0c1b; 
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(8px) brightness(0.3);
+      z-index: -1; 
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(17, 17, 17, 0.9);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+      border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .navbar-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      color: #FFD700;
+      font-family: 'Cinzel Decorative', serif;
+    }
+
+    .navbar-title {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .logo-icon {
+      height: 36px;
+      width: auto;
+      margin-right: 12px;
+      vertical-align: middle;
+    }
+
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-links li a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-links li a:hover {
+      background-color: rgba(255, 215, 0, 0.1);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .hero-header {
+      position: relative;
+      height: 450px;
+      background-image: url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .hero-header .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+    }
+
+    .hero-header .z-1 {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-header h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 4.5rem;
+      color: #f5c518;
+      text-shadow: 0 0 20px #000, 0 0 40px #000;
+      letter-spacing: 3px;
+      animation: fadeInTitle 2s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+      margin-bottom: 20px;
+    }
+
+    @keyframes fadeInTitle {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-header p {
+      font-size: 1.4rem;
+      color: #ffffff;
+      margin-top: 15px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+      animation: fadeInSubtitle 2.5s ease-in-out;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes fadeInSubtitle {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    main {
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 1400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+    }
+
+    .menu-tienda {
+      margin: 40px 0;
+      text-align: center;
+    }
+
+    .btn {
+      margin: 15px;
+      padding: 18px 35px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid transparent;
+      backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      border-color: #007bff;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0056b3, #004085);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+      border-color: #FFD700;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6c757d, #495057);
+      color: white;
+      border-color: #6c757d;
+      box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #495057, #343a40);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+      border-color: #FFD700;
+    }
+
+    .productos-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .producto {
+      border: 2px solid rgba(255, 215, 0, 0.2);
+      padding: 20px;
+      width: 280px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .producto::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .producto:hover::before {
+      opacity: 1;
+    }
+
+    .producto:hover {
+      transform: translateY(-10px) scale(1.03);
+      border-color: #FFD700;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .producto img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .producto:hover img {
+      transform: scale(1.05);
+    }
+
+    .producto h3 {
+      color: #FFD700;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    }
+
+    .producto p {
+      color: #ffffff;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .precio {
+      background: linear-gradient(45deg, #FFD700, #FFA500);
+      color: #000;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .rareza-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .rareza-common { background: #95a5a6; color: white; }
+    .rareza-rare { background: #3498db; color: white; }
+    .rareza-epic { background: #9b59b6; color: white; }
+    .rareza-legendary { background: #f39c12; color: white; }
+    .rareza-mythic { background: #e74c3c; color: white; }
+
+    .section-title {
+      text-align: center;
+      margin: 40px 0 30px 0;
+      color: #FFD700;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(45deg, #FFD700, #FFA500);
+      border-radius: 2px;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: #FFD700;
+    }
+
+    .loading-spinner.show {
+      display: block;
+    }
+
+    .custom-footer {
+      background: rgba(0, 0, 0, 0.8);
+      color: #ffd700;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 50px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+      border-top: 2px solid rgba(255, 215, 0, 0.3);
+    }
+
+    .custom-footer a {
+      color: #ffd700;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .custom-footer a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .riot-logo {
+      width: 200px;
+      height: auto;
+      margin: 15px auto;
+      display: block;
+      filter: brightness(0) invert(1);
+      opacity: 0.8;
+    }
+
+    #notificacion {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      opacity: 0.95;
+      z-index: 2000;
+      animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
+      backdrop-filter: blur(10px);
+    }
+
+    #notificacion.success {
+      background: linear-gradient(45deg, #28a745, #20c997);
+      border: 1px solid #28a745;
+    }
+
+    #notificacion.error {
+      background: linear-gradient(45deg, #dc3545, #e74c3c);
+      border: 1px solid #dc3545;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 0.95;
+      }
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .navbar-content {
+        padding: 10px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .navbar-title {
+        font-size: 24px;
+      }
+      
+      main {
+        margin: 20px 10px;
+        padding: 20px;
+      }
+
+      .btn {
+        display: block;
+        margin: 10px auto;
+        width: 80%;
+      }
+
+      .producto {
+        width: 100%;
+        max-width: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <h1 class="navbar-title">
+        <img src="https://cdn.iconscout.com/icon/free/png-256/free-league-of-legends-5-569288.png" alt="League of Legends Logo" class="logo-icon">
+        League of Legends Store
+      </h1>
+      <ul class="navbar-links">
+        <li><a href="#home" onclick="showHome()">Inicio</a></li>
+        <li><a href="#rp" onclick="showRPStore()">Tienda RP</a></li>
+        <li><a href="#skins" onclick="showSkinsStore()">Tienda Skins</a></li>
+        <li><a href="https://www.leagueoflegends.com/es-es/" target="_blank">Descargar LoL</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero-header text-white d-flex align-items-center justify-content-center text-center">
+    <div class="overlay w-100 h-100 position-absolute top-0 start-0"></div>
+    <div class="position-relative z-1">
+      <h1 id="hero-title" class="display-4 fw-bold">Tienda League of Legends</h1>
+      <p id="hero-subtitle" class="lead">Selecciona una tienda para explorar los productos</p>
+    </div>
+  </header>
+
+  <!-- Página de Inicio -->
+  <main id="home-page" class="container my-4">
+    <div class="text-center">
+      <h2 class="section-title">Bienvenido a la Tienda</h2>
+      <p style="color: #ffffff; opacity: 0.9; font-size: 1.2rem; margin-bottom: 30px;">
+        Descubre increíbles ofertas en RP y las mejores skins para tus campeones favoritos
+      </p>
+      
+      <div class="menu-tienda">
+        <a class="btn btn-primary" href="#rp" onclick="showRPStore()">
+          <i class="💎"></i> Tienda de RP
+        </a>
+        <a class="btn btn-secondary" href="#skins" onclick="showSkinsStore()">
+          <i class="✨"></i> Tienda de Skins
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Tienda de RP -->
+  <main id="rp-page" class="container my-4" style="display: none;">
+    <h2 class="section-title">Tienda de RP</h2>
+    <div class="loading-spinner" id="rp-loading">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3">Cargando productos RP...</p>
+    </div>
+    <div class="productos-container" id="productos-rp"></div>
+  </main>
+
+  <!-- Tienda de Skins -->
+  <main id="skins-page" class="container my-4" style="display: none;">
+    <h2 class="section-title">Tienda de Skins</h2>
+    <div class="loading-spinner" id="skins-loading">
+      <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3">Cargando skins...</p>
+    </div>
+    <div class="productos-container" id="productos-skins"></div>
+  </main>
+
+  <!-- Notificaciones -->
+  <div id="notificacion" style="display: none;"></div>
+
+  <footer class="custom-footer">
+    <div class="footer-content">
+      <p><strong>Evaluación 2 Pablo Quilodrán - Franco Morán</strong> - No afiliado a Riot Games</p>
+      <img src="https://logos-world.net/wp-content/uploads/2021/10/Riot-Games-Symbol.png" alt="Riot Games Logo" class="riot-logo">
+      <p>
+        © Copyright 2013-2025 League of Legends Store. Todos los derechos reservados. 
+        Este sitio no está respaldado por Riot Games y no refleja las opiniones o puntos de vista de Riot Games 
+        ni de ninguna persona oficialmente involucrada en la producción o gestión de League of Legends. 
+        League of Legends y Riot Games son marcas comerciales o marcas registradas de Riot Games, Inc. 
+        League of Legends © Riot Games, Inc.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Datos de ejemplo para RP
+    const productosRP = [
+      {
+        id: 1,
+        nombre: "650 RP",
+        cantidadRP: 650,
+        precio: 5.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/blt7d4d3e3e3b6be1f5/650rp_card.png"
+      },
+      {
+        id: 2,
+        nombre: "1380 RP",
+        cantidadRP: 1380,
+        precio: 10.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/blt8f3d4f5f6d7c8e9a/1380rp_card.png"
+      },
+      {
+        id: 3,
+        nombre: "2800 RP",
+        cantidadRP: 2800,
+        precio: 20.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/blt9g4e5g6g7e8d9f0b/2800rp_card.png"
+      },
+      {
+        id: 4,
+        nombre: "5000 RP",
+        cantidadRP: 5000,
+        precio: 35.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/blta5f6a7a8f9e0a1b2/5000rp_card.png"
+      },
+      {
+        id: 5,
+        nombre: "8250 RP",
+        cantidadRP: 8250,
+        precio: 50.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/bltb6g7b8b9g0f1g2h3/8250rp_card.png"
+      },
+      {
+        id: 6,
+        nombre: "15000 RP",
+        cantidadRP: 15000,
+        precio: 100.00,
+        imagenUrl: "https://images.contentstack.io/v3/assets/blt0eb2a2986b796d29/bltc7h8c9c0h1g2h3i4/15000rp_card.png"
+      }
+    ];
+
+    // Datos de ejemplo para Skins
+    const productosSkins = [
+      {
+        id: 1,
+        nombre: "Jinx Odyssey",
+        campeon: "Jinx",
+        rareza: "Legendary",
+        precioRP: 1820,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_5.jpg"
+      },
+      {
+        id: 2,
+        nombre: "Yasuo True Damage",
+        campeon: "Yasuo",
+        rareza: "Epic",
+        precioRP: 1350,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_18.jpg"
+      },
+      {
+        id: 3,
+        nombre: "Ahri K/DA ALL OUT",
+        campeon: "Ahri",
+        rareza: "Epic",
+        precioRP: 1350,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_14.jpg"
+      },
+      {
+        id: 4,
+        nombre: "Lux Elementalist",
+        campeon: "Lux",
+        rareza: "Mythic",
+        precioRP: 3250,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_7.jpg"
+      },
+      {
+        id: 5,
+        nombre: "Ezreal Pulsefire",
+        campeon: "Ezreal",
+        rareza: "Legendary",
+        precioRP: 1820,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ezreal_4.jpg"
+      },
+      {
+        id: 6,
+        nombre: "Thresh Dark Star",
+        campeon: "Thresh",
+        rareza: "Epic",
+        precioRP: 1350,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Thresh_6.jpg"
+      },
+      {
+        id: 7,
+        nombre: "Katarina Battle Academia",
+        campeon: "Katarina",
+        rareza: "Epic",
+        precioRP: 1350,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Katarina_10.jpg"
+      },
+      {
+        id: 8,
+        nombre: "Zed Galaxy Slayer",
+        campeon: "Zed",
+        rareza: "Epic",
+        precioRP: 1350,
+        imagenUrl: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_8.jpg"
+      }
+    ];
+
+    // Funciones de navegación
+    function showHome() {
+      hideAllPages();
+      document.getElementById('home-page').style.display = 'block';
+      updateHero('Tienda League of Legends', 'Selecciona una tienda para explorar los productos');
+    }
+
+    function showRPStore() {
+      hideAllPages();
+      document.getElementById('rp-page').style.display = 'block';
+      updateHero('Tienda de RP', 'Consigue Riot Points para desbloquear contenido premium');
+      loadRPProducts();
+    }
+
+    function showSkinsStore() {
+      hideAllPages();
+      document.getElementById('skins-page').style.display = 'block';
+      updateHero('Tienda de Skins', 'Personaliza tus campeones con increíbles aspectos');
+      loadSkinsProducts();
+    }
+
+    function hideAllPages() {
+      document.getElementById('home-page').style.display = 'none';
+      document.getElementById('rp-page').style.display = 'none';
+      document.getElementById('skins-page').style.display = 'none';
+    }
+
+    function updateHero(title, subtitle) {
+      document.getElementById('hero-title').textContent = title;
+      document.getElementById('hero-subtitle').textContent = subtitle;
+    }
+
+    // Función para cargar productos RP
+    function loadRPProducts() {
+      const container = document.getElementById('productos-rp');
+      const loading = document.getElementById('rp-loading');
+      
+      if (container.innerHTML !== '') return; // Ya cargado
+      
+      loading.classList.add('show');
+      
+      setTimeout(() => {
+        container.innerHTML = '';
+        
+        productosRP.forEach((producto, index) => {
+          const productoDiv = document.createElement('div');
+          productoDiv.className = 'producto';
+          productoDiv.style.animationDelay = `${index * 0.1}s`;
+          productoDiv.innerHTML = `
+            <img src="https://via.placeholder.com/250x200/1e3c72/ffffff?text=${producto.cantidadRP}+RP" alt="${producto.nombre}" />
+            <h3>${producto.nombre}</h3>
+            <p>Cantidad de RP: <strong>${producto.cantidadRP.toLocaleString()}</strong></p>
+            <div class="precio">$${producto.precio.toFixed(2)}</div>
+            <button class="btn btn-primary mt-3" onclick="comprarRP(${producto.id})">Comprar</button>
+          `;
+          container.appendChild(productoDiv);
+        });
+        
+        loading.classList.remove('show');
+      }, 1000);
+    }
+
+    // Función para cargar skins
+    function loadSkinsProducts() {
+      const container = document.getElementById('productos-skins');
+      const loading = document.getElementById('skins-loading');
+      
+      if (container.innerHTML !== '') return; // Ya cargado
+      
+      loading.classList.add('show');
+      
+      setTimeout(() => {
+        container.innerHTML = '';
+        
+        productosSkins.forEach((skin, index) => {
+          const skinDiv = document.createElement('div');
+          skinDiv.className = 'producto';
+          skinDiv.style.animationDelay = `${index * 0.1}s`;
+          skinDiv.innerHTML = `
+            <div class="rareza-badge rareza-${skin.rareza.toLowerCase()}">${skin.rareza}</div>
+            <img src="${skin.imagenUrl}" alt="${skin.nombre}" />
+            <h3>${skin.nombre}</h3>
+            <p>Campeón: <strong>${skin.campeon}</strong></p>
+            <p>Rareza: <strong>${skin.rareza}</strong></p>
+            <div class="precio">${skin.precioRP} RP</div>
+            <button class="btn btn-secondary mt-3" onclick="comprarSkin(${skin.id})">Comprar</button>
+          `;
+          container.appendChild(skinDiv);
+        });
+        
+        loading.classList.remove('show');
+      }, 1000);
+    }
+
+    // Funciones de compra
+    function comprarRP(id) {
+      const producto = productosRP.find(p => p.id === id);
+      showNotification(`¡Has comprado ${producto.nombre} por $${producto.precio.toFixed(2)}!`, 'success');
+    }
+
+    function comprarSkin(id) {
+      const skin = productosSkins.find(s => s.id === id);
